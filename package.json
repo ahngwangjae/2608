@@ -1,0 +1,13 @@
+{
+  "name": "icampus-today",
+  "version": "1.0.0",
+  "private": true,
+  "description": "아이캠퍼스 캘린더 피드를 오늘과 이번 주 할 일로 정리하는 대시보드",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

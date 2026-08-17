@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f6f7fb">
+  <title>Campus Flow — 오늘의 과제</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;600;700&family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <a class="brand" href="#" aria-label="Campus Flow 홈"><span class="brand-mark">C</span><span>Campus<span>Flow</span></span></a>
+      <nav>
+        <button class="nav-item active" data-view="all"><span class="nav-icon">⌂</span>오늘의 할 일</button>
+        <button class="nav-item" data-view="week"><span class="nav-icon">□</span>이번 주</button>
+        <button class="nav-item" id="openSettings"><span class="nav-icon">⌁</span>피드 설정</button>
+      </nav>
+      <div class="sync-card">
+        <div class="sync-icon">↻</div>
+        <strong>자동으로 정리해요</strong>
+        <p>아이캠퍼스 일정을 마감일 순서로 한눈에.</p>
+        <button id="sideConnect">피드 연결하기</button>
+      </div>
+      <div class="profile"><div class="avatar">학생</div><div><strong>나의 캠퍼스</strong><span id="syncState">피드 연결 안 됨</span></div></div>
+    </aside>
+
+    <main>
+      <header class="topbar">
+        <button class="mobile-menu" aria-label="메뉴 열기">☰</button>
+        <div class="date-chip"><span id="dateNumber">17</span><div><b id="dateMonth">8월</b><small id="dateDay">월요일</small></div></div>
+        <div class="top-actions">
+          <button class="icon-button" id="refreshButton" aria-label="새로고침">↻</button>
+          <button class="connect-button" id="topConnect"><span>＋</span> 캘린더 연결</button>
+        </div>
+      </header>
+
+      <section class="content">
+        <div class="welcome">
+          <div><p class="eyebrow">MY CAMPUS</p><h1>좋은 하루예요! <span>👋</span></h1><p>놓치면 안 되는 일정을 정리했어요.</p></div>
+          <div class="progress-ring" id="progressRing"><div><strong id="progressValue">0%</strong><small>오늘 완료</small></div></div>
+        </div>
+
+        <div class="stats">
+          <article class="stat-card urgent"><div class="stat-icon">!</div><div><span>오늘 마감</span><strong id="todayCount">0</strong><small id="todayHint">여유로운 하루예요</small></div></article>
+          <article class="stat-card weekly"><div class="stat-icon">✓</div><div><span>이번 주 할 일</span><strong id="weekCount">0</strong><small>차근차근 해볼까요?</small></div></article>
+          <article class="stat-card done"><div class="stat-icon">↗</div><div><span>완료한 일정</span><strong id="doneCount">0</strong><small>이번 주 기준</small></div></article>
+        </div>
+
+        <section class="task-section">
+          <div class="section-title"><div><span class="dot red"></span><h2>오늘까지 해야 해요</h2><span class="count-badge" id="todayBadge">0</span></div><button class="text-button" data-toggle="today">모두 보기</button></div>
+          <div class="task-list" id="todayList"></div>
+        </section>
+
+        <section class="task-section">
+          <div class="section-title"><div><span class="dot blue"></span><h2>이번 주에 해야 해요</h2><span class="count-badge blue" id="weekBadge">0</span></div><button class="text-button" data-toggle="week">모두 보기</button></div>
+          <div class="task-list" id="weekList"></div>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <div class="modal-backdrop" id="feedModal" aria-hidden="true">
+    <section class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <button class="modal-close" aria-label="닫기">×</button>
+      <div class="modal-icon">⌁</div>
+      <p class="eyebrow">CALENDAR FEED</p>
+      <h2 id="modalTitle">아이캠퍼스 연결하기</h2>
+      <p class="modal-desc">아이캠퍼스 캘린더에서 복사한 피드 주소를 붙여 넣어 주세요. 과제와 일정을 자동으로 분류해 드려요.</p>
+      <form id="feedForm">
+        <label for="feedUrl">캘린더 피드 주소</label>
+        <div class="input-wrap"><span>⌁</span><input id="feedUrl" type="text" inputmode="url" placeholder="https://canvas.skku.edu/feeds/...ics" autocomplete="off" spellcheck="false" required></div>
+        <p class="privacy">🔒 주소는 이 브라우저에만 저장돼요.</p>
+        <div class="form-error" id="formError"></div>
+        <button class="submit-button" type="submit"><span class="button-label">캘린더 불러오기</span><span class="spinner"></span></button>
+      </form>
+      <button class="demo-button" id="demoButton">먼저 예시 화면 보기</button>
+    </section>
+  </div>
+  <div class="toast" id="toast"></div>
+  <script src="app.js"></script>
+</body>
+</html>
