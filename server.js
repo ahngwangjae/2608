@@ -55,7 +55,7 @@ async function proxyCalendar(req, res) {
   }
 }
 
-const server = http.createServer(async (req, res) => {
+async function handler(req, res) {
   if (req.method === 'POST' && req.url === '/api/calendar') return proxyCalendar(req, res);
   const pathname = req.url === '/' ? '/index.html' : decodeURIComponent(req.url.split('?')[0]);
   const file = path.resolve(ROOT, '.' + pathname);
@@ -64,6 +64,15 @@ const server = http.createServer(async (req, res) => {
   }
   res.writeHead(200, { 'content-type': TYPES[path.extname(file)] || 'application/octet-stream' });
   fs.createReadStream(file).pipe(res);
-});
+}
 
-server.listen(PORT, () => console.log(`iCampus Today: http://localhost:${PORT}`));
+// Vercel imports this file and invokes the exported request handler. Opening a
+// listening socket while it is being imported makes the serverless function
+// crash. Only create the local HTTP server when this file is run directly.
+if (require.main === module) {
+  http.createServer(handler).listen(PORT, () => {
+    console.log(`iCampus Today: http://localhost:${PORT}`);
+  });
+}
+
+module.exports = handler;
