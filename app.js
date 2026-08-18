@@ -82,14 +82,21 @@ function getBuckets() {
 function getDone() { try { return JSON.parse(localStorage.getItem(STORAGE.done)) || []; } catch { return []; } }
 function isDone(id) { return getDone().includes(id); }
 function toggleDone(id) { const done=getDone(); const next=done.includes(id)?done.filter(x=>x!==id):[...done,id]; localStorage.setItem(STORAGE.done,JSON.stringify(next)); render(); }
+function daysUntil(due) {
+  const now = new Date();
+  const today = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate());
+  const dueDate = Date.UTC(due.getFullYear(), due.getMonth(), due.getDate());
+  return Math.max(0, Math.round((dueDate - today) / 86400000));
+}
 function deadlineText(due, type) {
   const now=new Date(); const minutes=Math.max(0,Math.round((due-now)/60000));
   if(type==='today') return minutes<60?`${minutes}분 남음`:`${Math.floor(minutes/60)}시간 남음`;
-  return `${due.getMonth()+1}/${due.getDate()} ${['일','월','화','수','목','금','토'][due.getDay()]}요일`;
+  return `${daysUntil(due)}일 남음`;
 }
 function taskHtml(task,type) {
   const time=task.due.toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'});
-  return `<article class="task ${type==='week'?'week-task':''} ${isDone(task.id)?'completed':''}"><button class="check" data-id="${escapeHtml(task.id)}" aria-label="완료 표시">✓</button><div><div class="task-name">${escapeHtml(task.title)}</div><div class="task-meta"><span class="course-tag">${escapeHtml(task.course)}</span><span class="description">${escapeHtml((task.description||'캘린더 일정').slice(0,44))}</span></div></div><div class="deadline"><strong>${deadlineText(task.due,type)}</strong><span>${type==='today'?`오늘 ${time}`:time}</span></div></article>`;
+  const weekDate = `${task.due.getMonth()+1}/${task.due.getDate()} ${['일','월','화','수','목','금','토'][task.due.getDay()]}요일`;
+  return `<article class="task ${type==='week'?'week-task':''} ${isDone(task.id)?'completed':''}"><button class="check" data-id="${escapeHtml(task.id)}" aria-label="완료 표시">✓</button><div><div class="task-name">${escapeHtml(task.title)}</div><div class="task-meta"><span class="course-tag">${escapeHtml(task.course)}</span><span class="description">${escapeHtml((task.description||'캘린더 일정').slice(0,44))}</span></div></div><div class="deadline"><strong>${deadlineText(task.due,type)}</strong><span>${type==='today'?`오늘 ${time}`:`${weekDate} · ${time}`}</span></div></article>`;
 }
 function escapeHtml(v='') { const el=document.createElement('div'); el.textContent=v; return el.innerHTML; }
 function renderList(element, list, type) {
@@ -134,7 +141,7 @@ function restore() {
 setDate(); render(); restore();
 $('#feedForm').onsubmit=e=>{e.preventDefault();loadFeed($('#feedUrl').value)};
 $('#demoButton').onclick=()=>{events=sampleEvents();render();closeModal();toast('예시 일정으로 화면을 채웠어요.')};
-[$('#topConnect'),$('#sideConnect'),$('#openSettings')].forEach(b=>b.onclick=openModal);
+$('#topConnect').onclick=openModal;
 $('.modal-close').onclick=closeModal; $('#feedModal').onclick=e=>{if(e.target===e.currentTarget)closeModal()};
 $('#refreshButton').onclick=()=>{const feed=localStorage.getItem(STORAGE.feed);feed?loadFeed(feed,true):openModal()};
 $('.mobile-menu').onclick=()=>$('.sidebar').classList.toggle('open');
