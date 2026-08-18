@@ -1,8 +1,16 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "functions": {
-    "api/calendar.js": {
-      "maxDuration": 15
-    }
-  }
+  "version": 2,
+  "builds": [
+    { "src": "index.html", "use": "@vercel/static" },
+    { "src": "app.js", "use": "@vercel/static" },
+    { "src": "styles.css", "use": "@vercel/static" },
+    { "src": "api/calendar.js", "use": "@vercel/node" }
+  ],
+  "routes": [
+    { "src": "/api/calendar", "dest": "/api/calendar.js" },
+    { "src": "/", "dest": "/index.html" },
+    { "src": "/app.js", "dest": "/app.js" },
+    { "src": "/styles.css", "dest": "/styles.css" }
+  ]
 }
