@@ -37,13 +37,11 @@
 @media(max-width:420px){.modal-backdrop{padding:8px}.modal{max-height:calc(100vh - 16px);border-radius:18px;padding:22px 14px}.feed-guide{padding:13px;margin-bottom:21px}.guide-viewport{height:150px}.guide-copy{min-height:48px}}
 @media(prefers-reduced-motion:reduce){.guide-atlas{transition:none}.guide-progress span,.feed-guide.changing .guide-sheen{animation:none}}
 
-.quick-connect-note{display:flex;align-items:center;gap:6px;margin:0 44px 13px 1px;color:#596273;font-size:9px;font-weight:700}
-.quick-connect-note span{display:grid;place-items:center;width:18px;height:18px;border-radius:6px;background:#fff1dd;color:#f5a623;font-size:10px}
-.modal>.modal-desc{margin-bottom:13px}
-.connection-benefits{display:flex;align-items:center;gap:11px;margin:0 0 21px;padding:12px 13px;border:1px solid #dfe3ff;border-radius:12px;background:linear-gradient(135deg,#f7f8ff,#eef1ff)}
-.benefit-spark{flex:0 0 auto;display:grid;place-items:center;width:31px;height:31px;border-radius:10px;background:#fff;color:var(--blue);font-size:15px;box-shadow:0 4px 12px rgba(92,109,247,.12)}
+.quick-connect-note{display:flex;align-items:center;gap:8px;margin:0 44px 14px 0;color:#454f62;font-size:12px;font-weight:700;letter-spacing:-.2px}
+.quick-connect-note span{flex:0 0 auto;display:block;width:25px;color:#ff4f57;font:700 29px/20px 'Segoe Print','Comic Sans MS',cursive;transform:rotate(-12deg)}
+.connection-benefits{display:block;margin:0 0 21px;padding:13px 15px;border:1px solid #dfe3ff;border-radius:12px;background:linear-gradient(135deg,#f7f8ff,#eef1ff)}
 .connection-benefits p,.connection-benefits strong,.connection-benefits p span{display:block}
 .connection-benefits p{margin:0}
-.connection-benefits strong{font-size:10px;color:#343e55;margin-bottom:3px}
-.connection-benefits p span{font-size:9px;line-height:1.5;color:#727d90}
-@media(max-width:420px){.quick-connect-note{font-size:8px}.connection-benefits{padding:10px}.connection-benefits p span{font-size:8px}}
+.connection-benefits strong{font-size:11px;color:#343e55;margin-bottom:5px}
+.connection-benefits p span{font-size:9px;line-height:1.65;color:#727d90}
+@media(max-width:420px){.quick-connect-note{font-size:10px}.quick-connect-note span{font-size:25px}.connection-benefits{padding:11px 12px}.connection-benefits p span{font-size:8px}}
