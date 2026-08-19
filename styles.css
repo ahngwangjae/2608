@@ -29,7 +29,7 @@
 .guide-copy strong{font-size:11px}
 .guide-copy p span{color:#7c8597;font-size:9px;margin-top:2px;line-height:1.45}
 .guide-progress{height:2px;background:#dfe3f2;border-radius:2px;overflow:hidden}
-.guide-progress span{display:block;width:100%;height:100%;background:var(--blue);transform-origin:left;animation:guideProgress 3.2s linear infinite}
+.guide-progress span{display:block;width:100%;height:100%;background:var(--blue);transform-origin:left;animation:guideProgress 1.92s linear infinite}
 .feed-guide.paused .guide-progress span{animation-play-state:paused}
 @keyframes guideProgress{from{transform:scaleX(0)}to{transform:scaleX(1)}}
 @keyframes guideSheen{from{transform:translateX(-120%)}to{transform:translateX(120%)}}

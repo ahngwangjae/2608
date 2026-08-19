@@ -144,7 +144,7 @@ function startGuide(reset=true) {
   stopGuide();
   if (reset) renderGuide(0);
   if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    guideTimer = setInterval(() => renderGuide((guideStep + 1) % guideSteps.length), 3200);
+    guideTimer = setInterval(() => renderGuide((guideStep + 1) % guideSteps.length), 1920);
   }
 }
 function openModal() {
