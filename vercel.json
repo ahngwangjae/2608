@@ -5,12 +5,14 @@
     { "src": "index.html", "use": "@vercel/static" },
     { "src": "app.js", "use": "@vercel/static" },
     { "src": "styles.css", "use": "@vercel/static" },
+    { "src": "assets/**", "use": "@vercel/static" },
     { "src": "api/calendar.js", "use": "@vercel/node" }
   ],
   "routes": [
     { "src": "/api/calendar", "dest": "/api/calendar.js" },
     { "src": "/", "dest": "/index.html" },
     { "src": "/app.js", "dest": "/app.js" },
-    { "src": "/styles.css", "dest": "/styles.css" }
+    { "src": "/styles.css", "dest": "/styles.css" },
+    { "src": "/assets/(.*)", "dest": "/assets/$1" }
   ]
 }

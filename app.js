@@ -111,8 +111,51 @@ function render() {
   $$('.check').forEach(btn=>btn.onclick=()=>toggleDone(btn.dataset.id));
 }
 function setDate() { const d=new Date(); $('#dateNumber').textContent=d.getDate(); $('#dateMonth').textContent=`${d.getMonth()+1}월`; $('#dateDay').textContent=d.toLocaleDateString('ko-KR',{weekday:'long'}); }
-function openModal() { $('#feedModal').classList.add('open'); $('#feedModal').setAttribute('aria-hidden','false'); setTimeout(()=>$('#feedUrl').focus(),100); }
-function closeModal() { $('#feedModal').classList.remove('open'); $('#feedModal').setAttribute('aria-hidden','true'); }
+const guideSteps = [
+  { title:'캘린더 열기', description:'학교 로고 아래 왼쪽 메뉴에서 달력 아이콘을 눌러요.' },
+  { title:'캘린더 피드 선택', description:'캘린더 화면 오른쪽 아래의 ‘캘린더 피드’를 눌러요.' },
+  { title:'피드 주소 복사', description:'팝업에 표시된 피드 주소를 복사해 아래에 붙여 넣어요.' }
+];
+let guideStep = 0;
+let guideTimer = null;
+function renderGuide(step) {
+  guideStep = step;
+  const guide = $('.feed-guide');
+  const atlas = $('.guide-atlas');
+  const copy = guideSteps[step];
+  atlas.className = `guide-atlas step-${step + 1}`;
+  $('.guide-number').textContent = step + 1;
+  $('.guide-copy strong').textContent = copy.title;
+  $('.guide-copy p span').textContent = copy.description;
+  $$('.guide-dot').forEach((dot,index) => {
+    dot.classList.toggle('active', index === step);
+    index === step ? dot.setAttribute('aria-current','step') : dot.removeAttribute('aria-current');
+  });
+  guide.classList.remove('changing');
+  void guide.offsetWidth;
+  guide.classList.add('changing');
+  const progress = $('.guide-progress span');
+  progress.style.animation = 'none';
+  void progress.offsetWidth;
+  progress.style.animation = '';
+}
+function stopGuide() { clearInterval(guideTimer); guideTimer = null; }
+function startGuide(reset=true) {
+  stopGuide();
+  if (reset) renderGuide(0);
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    guideTimer = setInterval(() => renderGuide((guideStep + 1) % guideSteps.length), 3200);
+  }
+}
+function openModal() {
+  const modal = $('#feedModal');
+  modal.classList.add('open');
+  modal.setAttribute('aria-hidden','false');
+  $('.modal').scrollTop = 0;
+  startGuide();
+  setTimeout(()=>$('.modal-close').focus(),100);
+}
+function closeModal() { stopGuide(); $('#feedModal').classList.remove('open'); $('#feedModal').setAttribute('aria-hidden','true'); }
 function toast(message) { const el=$('#toast'); el.textContent=message; el.classList.add('show'); setTimeout(()=>el.classList.remove('show'),2400); }
 function maskedHost(input) { try { const u=new URL(input.replace(/^webcal:/,'https:')); return `${u.hostname} · 연결됨`; } catch { return '피드 연결됨'; } }
 async function loadFeed(url, quiet=false) {
@@ -146,4 +189,9 @@ $('.modal-close').onclick=closeModal; $('#feedModal').onclick=e=>{if(e.target===
 $('#refreshButton').onclick=()=>{const feed=localStorage.getItem(STORAGE.feed);feed?loadFeed(feed,true):openModal()};
 $('.mobile-menu').onclick=()=>$('.sidebar').classList.toggle('open');
 $$('[data-toggle]').forEach(btn=>btn.onclick=()=>{const key=btn.dataset.toggle;showAll[key]=!showAll[key];btn.textContent=showAll[key]?'접기':'모두 보기';render()});
+$$('.guide-dot').forEach(dot=>dot.onclick=()=>{renderGuide(Number(dot.dataset.guideStep));startGuide(false)});
+$('.feed-guide').addEventListener('mouseenter',()=>{$('.feed-guide').classList.add('paused');stopGuide()});
+$('.feed-guide').addEventListener('mouseleave',()=>{$('.feed-guide').classList.remove('paused');startGuide(false)});
+$('.feed-guide').addEventListener('focusin',()=>{$('.feed-guide').classList.add('paused');stopGuide()});
+$('.feed-guide').addEventListener('focusout',e=>{if(!e.currentTarget.contains(e.relatedTarget)){$('.feed-guide').classList.remove('paused');startGuide(false)}});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});

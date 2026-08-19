@@ -4,3 +4,35 @@
 @media(max-width:420px){.icon-button{display:none}.stats{grid-template-columns:1fr 1fr}.stat-card{padding:15px 12px}.stat-card:last-child{display:none}.stat-icon{width:36px;height:36px}.welcome{align-items:flex-end}.welcome>div>p:last-child{max-width:210px}.progress-ring{width:58px;height:58px}.task-meta .description{display:none}}
 .profile{margin-top:auto}
 .icampus-link{display:flex;align-items:center;justify-content:center;gap:6px;margin:13px 0 0;padding:10px;border:1px solid var(--line);border-radius:11px;color:var(--blue);background:#fff;text-decoration:none;font-size:10px;font-weight:700;transition:.18s}.icampus-link:hover{border-color:#cfd4ff;background:var(--blue-soft)}.icampus-link span{font-size:14px}
+
+/* Calendar feed walkthrough */
+.modal{width:min(560px,100%);max-height:calc(100vh - 32px);overflow-y:auto;padding:28px 34px 32px;scrollbar-width:thin}
+.feed-guide{margin:0 0 25px;padding:17px;border:1px solid #e4e7ff;border-radius:17px;background:linear-gradient(145deg,#f8f8ff,#f2f4ff);overflow:hidden}
+.guide-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:12px}
+.guide-kicker{display:block;color:var(--blue);font-size:8px;font-weight:700;letter-spacing:.08em;margin-bottom:3px}
+.guide-heading h3{font-size:14px;letter-spacing:-.3px;margin:0}
+.guide-dots{display:flex;gap:6px;padding-bottom:2px}
+.guide-dot{width:6px;height:6px;padding:0;border:0;border-radius:50%;background:#cfd4e4;cursor:pointer;transition:width .25s,background .25s}
+.guide-dot.active{width:18px;border-radius:5px;background:var(--blue)}
+.guide-dot:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+.guide-viewport{height:205px;border-radius:12px;background:#e9edf4;overflow:hidden;position:relative;box-shadow:0 7px 22px rgba(31,42,73,.11)}
+.guide-atlas{display:block;width:300%;max-width:none;height:auto;will-change:transform;transition:transform .75s cubic-bezier(.2,.75,.22,1)}
+.guide-atlas.step-1{transform:translate3d(0,-18%,0)}
+.guide-atlas.step-2{transform:translate3d(-33.333%,-59%,0)}
+.guide-atlas.step-3{transform:translate3d(-66.666%,-43%,0)}
+.guide-sheen{position:absolute;inset:0;pointer-events:none;background:linear-gradient(110deg,transparent 35%,rgba(255,255,255,.3) 50%,transparent 65%);transform:translateX(-120%)}
+.feed-guide.changing .guide-sheen{animation:guideSheen .75s ease}
+.guide-copy{display:flex;align-items:center;gap:10px;min-height:45px;padding-top:11px}
+.guide-number{flex:0 0 auto;width:25px;height:25px;display:grid;place-items:center;border-radius:50%;background:#ff5757;color:#fff;font:700 12px 'DM Sans';box-shadow:0 4px 10px rgba(255,87,87,.25)}
+.guide-copy p,.guide-copy strong,.guide-copy p span{display:block}
+.guide-copy p{margin:0}
+.guide-copy strong{font-size:11px}
+.guide-copy p span{color:#7c8597;font-size:9px;margin-top:2px;line-height:1.45}
+.guide-progress{height:2px;background:#dfe3f2;border-radius:2px;overflow:hidden}
+.guide-progress span{display:block;width:100%;height:100%;background:var(--blue);transform-origin:left;animation:guideProgress 3.2s linear infinite}
+.feed-guide.paused .guide-progress span{animation-play-state:paused}
+@keyframes guideProgress{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes guideSheen{from{transform:translateX(-120%)}to{transform:translateX(120%)}}
+@media(max-width:780px){.modal{padding:26px 20px 28px}.guide-viewport{height:180px}}
+@media(max-width:420px){.modal-backdrop{padding:8px}.modal{max-height:calc(100vh - 16px);border-radius:18px;padding:22px 14px}.feed-guide{padding:13px;margin-bottom:21px}.guide-viewport{height:150px}.guide-copy{min-height:48px}}
+@media(prefers-reduced-motion:reduce){.guide-atlas{transition:none}.guide-progress span,.feed-guide.changing .guide-sheen{animation:none}}

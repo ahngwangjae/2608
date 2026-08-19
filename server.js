@@ -6,7 +6,7 @@ const net = require('net');
 
 const PORT = Number(process.env.PORT) || 4173;
 const ROOT = __dirname;
-const TYPES = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.svg': 'image/svg+xml' };
+const TYPES = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.svg': 'image/svg+xml', '.png': 'image/png' };
 
 function isPrivateIp(ip) {
   if (net.isIPv4(ip)) {

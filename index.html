@@ -67,6 +67,28 @@
   <div class="modal-backdrop" id="feedModal" aria-hidden="true">
     <section class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
       <button class="modal-close" aria-label="닫기">×</button>
+      <section class="feed-guide" aria-labelledby="feedGuideTitle">
+        <div class="guide-heading">
+          <div>
+            <span class="guide-kicker">3단계로 끝나요</span>
+            <h3 id="feedGuideTitle">캘린더 피드 주소 찾기</h3>
+          </div>
+          <div class="guide-dots" aria-label="안내 단계">
+            <button class="guide-dot active" type="button" data-guide-step="0" aria-label="1단계 보기" aria-current="step"></button>
+            <button class="guide-dot" type="button" data-guide-step="1" aria-label="2단계 보기"></button>
+            <button class="guide-dot" type="button" data-guide-step="2" aria-label="3단계 보기"></button>
+          </div>
+        </div>
+        <div class="guide-viewport" aria-hidden="true">
+          <img class="guide-atlas step-1" src="assets/calendar-feed-guide.png" alt="" width="1536" height="1024">
+          <div class="guide-sheen"></div>
+        </div>
+        <div class="guide-copy" aria-live="polite">
+          <span class="guide-number">1</span>
+          <p><strong>캘린더 열기</strong><span>학교 로고 아래 왼쪽 메뉴에서 달력 아이콘을 눌러요.</span></p>
+        </div>
+        <div class="guide-progress" aria-hidden="true"><span></span></div>
+      </section>
       <div class="modal-icon">⌁</div>
       <p class="eyebrow">CALENDAR FEED</p>
       <h2 id="modalTitle">아이캠퍼스 연결하기</h2>
