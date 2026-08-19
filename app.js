@@ -157,6 +157,13 @@ function openModal() {
 }
 function closeModal() { stopGuide(); $('#feedModal').classList.remove('open'); $('#feedModal').setAttribute('aria-hidden','true'); }
 function toast(message) { const el=$('#toast'); el.textContent=message; el.classList.add('show'); setTimeout(()=>el.classList.remove('show'),2400); }
+function trackCalendarConnectionSuccess(importedEventCount) {
+  if (typeof window.gtag !== 'function') return;
+  window.gtag('event', 'calendar_feed_connected', {
+    connection_method: 'manual_feed_url',
+    imported_event_count: importedEventCount
+  });
+}
 function maskedHost(input) { try { const u=new URL(input.replace(/^webcal:/,'https:')); return `${u.hostname} · 연결됨`; } catch { return '피드 연결됨'; } }
 async function loadFeed(url, quiet=false) {
   try { url=normalizeFeedUrl(url); }
@@ -166,7 +173,7 @@ async function loadFeed(url, quiet=false) {
     const response=await fetch('/api/calendar',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({url})});
     if(!response.ok){ const data=await response.json().catch(()=>({})); throw new Error(data.error||'캘린더를 불러오지 못했어요.'); }
     const text=await response.text(); const parsed=parseIcs(text); if(!parsed.length) throw new Error('마감일이 있는 일정을 찾지 못했어요.');
-    events=parsed; localStorage.setItem(STORAGE.feed,url); localStorage.setItem(STORAGE.cache,JSON.stringify(parsed)); $('#syncState').textContent=maskedHost(url); render(); closeModal(); toast(`${parsed.length}개의 일정을 불러왔어요.`);
+    events=parsed; localStorage.setItem(STORAGE.feed,url); localStorage.setItem(STORAGE.cache,JSON.stringify(parsed)); $('#syncState').textContent=maskedHost(url); render(); if(!quiet) trackCalendarConnectionSuccess(parsed.length); closeModal(); toast(`${parsed.length}개의 일정을 불러왔어요.`);
   } catch(error) {
     const message=error instanceof TypeError && /fetch/i.test(error.message)
       ? '앱 서버에 연결할 수 없어요. npm start로 실행한 뒤 http://localhost:4173에서 열어 주세요.'
